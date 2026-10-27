@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GESTION_DE_NOTAS.MainPage"
+             x:Name="PageRoot"
+             BackgroundColor="#0F1322"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid x:Name="RootLayout">
+        <ScrollView Padding="20">
+            <VerticalStackLayout Spacing="18">
+
+                <!-- HEADER PRINCIPAL CON BOTÓN MODO CLARO / OSCURO -->
+                <Border x:Name="HeaderBorder" StrokeThickness="0" BackgroundColor="#171D32" StrokeShape="RoundRectangle 16" Padding="15">
+                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label x:Name="LblSaludo" Text="Hola," TextColor="#94A3B8" FontSize="12"/>
+                            <Label x:Name="LblNombreHeader" Text="[Seleccione Estudiante]" TextColor="White" FontSize="18" FontAttributes="Bold"/>
+                        </VerticalStackLayout>
+
+                        <Button Grid.Column="1" 
+                                x:Name="BtnCambiarTema" 
+                                Text="☀️ MODO CLARO" 
+                                FontSize="12" 
+                                FontAttributes="Bold"
+                                BackgroundColor="#222C4A" 
+                                TextColor="White" 
+                                CornerRadius="10" 
+                                Clicked="OnCambiarTemaClicked"/>
+                    </Grid>
+                </Border>
+
+                <!-- GRID PRINCIPAL DE 2 COLUMNAS -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="18">
+
+                    <!-- COLUMNA IZQUIERDA: GRÁFICO CIRCULAR RADIAL Y TRES ESTADOS -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="16">
+
+                        <!-- TARJETA DEL GRÁFICO CIRCULAR / RULETA -->
+                        <Border x:Name="CardGauge" StrokeThickness="0" BackgroundColor="#171D32" StrokeShape="RoundRectangle 24" Padding="25,20">
+                            <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+
+                                <Grid HeightRequest="170" WidthRequest="170" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <!-- Anillo Pista de Fondo -->
+                                    <Ellipse x:Name="CircleTrack"
+                                             WidthRequest="150" 
+                                             HeightRequest="150" 
+                                             Stroke="#222C4A" 
+                                             StrokeThickness="14" 
+                                             HorizontalOptions="Center" 
+                                             VerticalOptions="Center"/>
+
+                                    <!-- Ruleta Dinámica de 3 Colores -->
+                                    <Ellipse x:Name="CircleProgress" 
+                                             WidthRequest="150" 
+                                             HeightRequest="150" 
+                                             Stroke="#10B981" 
+                                             StrokeThickness="14" 
+                                             StrokeDashArray="1, 10" 
+                                             StrokeDashOffset="0"
+                                             Rotation="-90"
+                                             HorizontalOptions="Center" 
+                                             VerticalOptions="Center"/>
+
+                                    <!-- Nota Final Central -->
+                                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="0">
+                                        <Label x:Name="LblNotaFinalGauge" Text="0.0" TextColor="White" FontSize="38" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                        <Label x:Name="LblSubtituloGauge" Text="Nota Final" TextColor="#94A3B8" FontSize="11" HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!-- BADGE DE ESTADO TRICOLOR -->
+                                <Border x:Name="BadgeEstadoGauge" StrokeThickness="0" BackgroundColor="#10B981" StrokeShape="RoundRectangle 14" Padding="20,8" HorizontalOptions="Center">
+                                    <Label x:Name="LblEstadoGauge" Text="APROBADO" TextColor="White" FontSize="12" FontAttributes="Bold" CharacterSpacing="1"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- SUBTOTALES DE PARCIALES -->
+                        <Border x:Name="CardParciales" StrokeThickness="0" BackgroundColor="#171D32" StrokeShape="RoundRectangle 18" Padding="15">
+                            <VerticalStackLayout Spacing="12">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label x:Name="LblP1Titulo" Text="Parcial 1" TextColor="#94A3B8" FontSize="12" FontAttributes="Bold"/>
+                                    <Label x:Name="LblParcial1Gauge" Text="0.0 / 5" TextColor="White" FontSize="12" FontAttributes="Bold"/>
+                                </Grid>
+                                <ProgressBar x:Name="ProgressP1" Progress="0.0" ProgressColor="#10B981" HeightRequest="8"/>
+
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label x:Name="LblP2Titulo" Text="Parcial 2" TextColor="#94A3B8" FontSize="12" FontAttributes="Bold"/>
+                                    <Label x:Name="LblParcial2Gauge" Text="0.0 / 5" TextColor="White" FontSize="12" FontAttributes="Bold"/>
+                                </Grid>
+                                <ProgressBar x:Name="ProgressP2" Progress="0.0" ProgressColor="#8B5CF6" HeightRequest="8"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- COLUMNA DERECHA: SELECCIÓN Y NOTAS -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="16">
+
+                        <!-- SELECCIONAR ESTUDIANTE -->
+                        <Border x:Name="CardEstud" StrokeThickness="0" BackgroundColor="#171D32" StrokeShape="RoundRectangle 18" Padding="15">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="SELECCIONAR ESTUDIANTE" TextColor="#38BDF8" FontSize="11" FontAttributes="Bold"/>
+                                <Border x:Name="BoxPicker" StrokeThickness="0" BackgroundColor="#0F1322" StrokeShape="RoundRectangle 10" Padding="10,0">
+                                    <Picker x:Name="PickerEstudiantes" TextColor="White" FontSize="14" FontAttributes="Bold" SelectedIndexChanged="OnEstudianteSelected">
+                                        <Picker.ItemsSource>
+                                            <x:Array Type="{x:Type x:String}">
+                                                <x:String>Carlos Mendoza</x:String>
+                                                <x:String>Ana Belén Torres</x:String>
+                                                <x:String>Mateo Villacís</x:String>
+                                                <x:String>Sofía Jaramillo</x:String>
+                                                <x:String>David Espinoza</x:String>
+                                            </x:Array>
+                                        </Picker.ItemsSource>
+                                    </Picker>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- PARCIAL 1 -->
+                        <Border x:Name="CardP1" StrokeThickness="0" BackgroundColor="#171D32" StrokeShape="RoundRectangle 18" Padding="15">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="PARCIAL 1 (50%)" TextColor="#10B981" FontSize="13" FontAttributes="Bold"/>
+                                <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                        <Label x:Name="LblSeg1" Text="Seguimiento (30%)" TextColor="#94A3B8" FontSize="10"/>
+                                        <Entry x:Name="TxtSeguimiento1" Placeholder="0 - 10" Keyboard="Numeric" TextColor="White" BackgroundColor="#0F1322" HorizontalTextAlignment="Center" TextChanged="OnNota1Changed"/>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label x:Name="LblEx1" Text="Examen (20%)" TextColor="#94A3B8" FontSize="10"/>
+                                        <Entry x:Name="TxtExamen1" Placeholder="0 - 10" Keyboard="Numeric" TextColor="White" BackgroundColor="#0F1322" HorizontalTextAlignment="Center" TextChanged="OnNota1Changed"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- PARCIAL 2 -->
+                        <Border x:Name="CardP2" StrokeThickness="0" BackgroundColor="#171D32" StrokeShape="RoundRectangle 18" Padding="15">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="PARCIAL 2 (50%)" TextColor="#8B5CF6" FontSize="13" FontAttributes="Bold"/>
+                                <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                        <Label x:Name="LblSeg2" Text="Seguimiento (30%)" TextColor="#94A3B8" FontSize="10"/>
+                                        <Entry x:Name="TxtSeguimiento2" Placeholder="0 - 10" Keyboard="Numeric" TextColor="White" BackgroundColor="#0F1322" HorizontalTextAlignment="Center" TextChanged="OnNota2Changed"/>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label x:Name="LblEx2" Text="Examen (20%)" TextColor="#94A3B8" FontSize="10"/>
+                                        <Entry x:Name="TxtExamen2" Placeholder="0 - 10" Keyboard="Numeric" TextColor="White" BackgroundColor="#0F1322" HorizontalTextAlignment="Center" TextChanged="OnNota2Changed"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- FECHA Y BOTÓN PROCESAR ACTA -->
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                            <Border x:Name="CardFecha" Grid.Column="0" StrokeThickness="0" BackgroundColor="#171D32" StrokeShape="RoundRectangle 12" Padding="8,2">
+                                <DatePicker x:Name="DpFecha" TextColor="White" FontSize="12" Format="dd/MM/yyyy"/>
+                            </Border>
+                            <Button Grid.Column="1" 
+                                    x:Name="BtnCalcular" 
+                                    Text="PROCESAR ACTA" 
+                                    BackgroundColor="#10B981" 
+                                    TextColor="White" 
+                                    FontAttributes="Bold" 
+                                    CornerRadius="12" 
+                                    Clicked="OnCalcularClicked"/>
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- MODAL OVERLAY PARA EL ACTA -->
+        <Grid x:Name="ModalOverlay" IsVisible="False" BackgroundColor="#DD000000">
+            <Border x:Name="ModalBorder" WidthRequest="440" StrokeThickness="2" Stroke="#10B981" StrokeShape="RoundRectangle 24" BackgroundColor="#171D32" HorizontalOptions="Center" VerticalOptions="Center" Padding="25">
+                <VerticalStackLayout Spacing="18">
+                    <Label x:Name="LblModalHeader" Text="ACTA DE CALIFICACIONES" TextColor="#10B981" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Border x:Name="CardContenidoModal" StrokeThickness="0" BackgroundColor="#0F1322" StrokeShape="RoundRectangle 12" Padding="15">
+                        <Label x:Name="LblModalContenido" TextColor="White" FontSize="14" FontFamily="Consolas" LineHeight="1.4" HorizontalOptions="Center"/>
+                    </Border>
+                    <Button x:Name="BtnCerrarModal" Text="ACEPTAR Y REGISTRAR" HeightRequest="45" CornerRadius="10" FontAttributes="Bold" TextColor="White" BackgroundColor="#10B981" Clicked="OnCerrarModalClicked"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- CAPA DE PARTÍCULAS -->
+        <AbsoluteLayout x:Name="ContainerParticulas" InputTransparent="True"/>
+    </Grid>
+</ContentPage>
