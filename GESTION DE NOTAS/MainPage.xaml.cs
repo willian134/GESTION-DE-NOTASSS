@@ -212,7 +212,7 @@ namespace GESTION_DE_NOTAS
             double dashVisible = fraccion * 100;
             double dashInvisible = 100 - dashVisible;
 
-            CircleProgress.StrokeDashArray = new doubleCollection { dashVisible, dashInvisible };
+            CircleProgress.StrokeDashArray = new DoubleCollection { dashVisible, dashInvisible };
         }
 
         private void ActualizarColoresEstado(double notaFinal)
