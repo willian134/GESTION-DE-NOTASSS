@@ -88,6 +88,7 @@ namespace GESTION_DE_NOTAS
             }
             else
             {
+                // APLICAR MODO OSCURO
                 PageRoot.BackgroundColor = Color.FromArgb("#0F1322");
                 BtnCambiarTema.Text = "☀️ MODO CLARO";
                 BtnCambiarTema.BackgroundColor = Color.FromArgb("#222C4A");
@@ -211,6 +212,7 @@ namespace GESTION_DE_NOTAS
             double dashVisible = fraccion * 100;
             double dashInvisible = 100 - dashVisible;
 
+            CircleProgress.StrokeDashArray = new doubleCollection { dashVisible, dashInvisible };
         }
 
         private void ActualizarColoresEstado(double notaFinal)
@@ -219,16 +221,19 @@ namespace GESTION_DE_NOTAS
             if (notaFinal >= 7.0)
             {
                 LblEstadoGauge.Text = "APROBADO";
+                BadgeEstadoGauge.BackgroundColor = Color.FromArgb("#10B981"); // Verde
                 CircleProgress.Stroke = Color.FromArgb("#10B981");
             }
             else if (notaFinal >= 5.0 && notaFinal <= 6.9)
             {
                 LblEstadoGauge.Text = "COMPLEMENTARIO";
+                BadgeEstadoGauge.BackgroundColor = Color.FromArgb("#F59E0B"); // Amarillo/Ámbar
                 CircleProgress.Stroke = Color.FromArgb("#F59E0B");
             }
             else
             {
                 LblEstadoGauge.Text = "REPROBADO";
+                BadgeEstadoGauge.BackgroundColor = Color.FromArgb("#EF4444"); // Rojo
                 CircleProgress.Stroke = Color.FromArgb("#EF4444");
             }
         }

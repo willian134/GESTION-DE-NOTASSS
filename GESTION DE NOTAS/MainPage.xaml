@@ -50,6 +50,7 @@
                                              HorizontalOptions="Center" 
                                              VerticalOptions="Center"/>
 
+                                    <!-- Ruleta Dinámica de 3 Colores (Verde, Amarillo, Rojo) -->
                                     <!-- Ruleta Dinámica de 3 Colores -->
                                     <Ellipse x:Name="CircleProgress" 
                                              WidthRequest="150" 
