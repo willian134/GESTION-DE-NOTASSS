@@ -38,7 +38,7 @@ namespace GESTION_DE_NOTAS
 
             if (_modoClaro)
             {
-                // MODO CLARO
+                // APLICAR MODO CLARO
                 PageRoot.BackgroundColor = Color.FromArgb("#F1F5F9");
                 BtnCambiarTema.Text = "🌙 MODO OSCURO";
                 BtnCambiarTema.BackgroundColor = Color.FromArgb("#0F172A");
